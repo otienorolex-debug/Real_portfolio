@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PortFolio</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!--NAV-Section-->
+    <div class="Nav-bar">
+        <a href="#" class="nav-link" data-target="home">Home</a>
+        <a href="#" class="nav-link" data-target="about">About Me</a>
+        <a href="#" class="nav-link" data-target="work">My Work</a>
+        <a href="#" class="nav-link" data-target="contacts">Contacts</a>
+    </div>
+
+    <div class="page">
+        <!-- Hero -->
+        <header class="hero">
+            <img class="profile-photo tilt" src="image.jpeg" alt="Portrait of Otieno Rolex">
+            <h1>Welcome To My Website!</h1>
+        </header>
+
+        <!---Home section-->
+        <div class="Home-section">
+            <h2>Home</h2>
+            <p id="my-message">Welcome to my personal site about me and some of the great works i have done so far!</p>
+        </div>
+
+        <!--About me-->
+        <div class="about-me">
+            <h2>About Me!</h2>
+            <img class="about-photo" src="images (1).jpeg" alt="About me photo">
+            <p id="about-text"></p>
+        </div>
+
+        <!--My work-->
+        <div class="my-work">
+            <h2>Some of my works</h2>
+            <p id="my-works"></p>
+        </div>
+    </div>
+
+    <footer id="footer">
+        <h2>Get in touch!</h2>
+        <a href="mailto:rolexkelly254@gmail.com">Email: rolexkelly254@gmail.com</a><br>
+        <a href="https://github.com/otienorolex-debug" target="_blank" rel="noopener">Github</a><br>
+        <a href="tel:0745183180">Phone: 0745183180</a>
+    </footer>
+
+    <!-- Three.js 3D background -->
+    <script type="importmap">
+      { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
+    </script>
+    <script type="module" src="scene.js"></script>
+
+    <!-- Your portfolio logic -->
+    <script src="index.js"></script>
+</body>
+</html>

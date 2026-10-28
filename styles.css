@@ -1,0 +1,262 @@
+/* ---------- Tokens ---------- */
+:root {
+  --ink: #2a1a3a;          /* deep plum: text, nav, edges */
+  --ink-edge: #170d22;     /* darker plum for 3D bottom edges */
+  --paper: #ffffff;
+  --glass: rgba(255, 255, 255, 0.88);  /* slabs: lets the 3D scene show through */
+  --paper-edge: #cfc6dc;   /* lavender edge under slabs */
+  --stage: #e6e0ee;        /* page background */
+  --blue: #3d5afe;         /* primary buttons */
+  --blue-edge: #2336b8;
+  --amber: #ffb347;        /* highlight */
+  --radius: 18px;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+
+body {
+  margin: 0;
+  font-family: "Trebuchet MS", "Segoe UI", system-ui, sans-serif;
+  line-height: 1.65;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 15% 10%, #f4effa 0, transparent 45%),
+    radial-gradient(circle at 90% 80%, #d9d0e6 0, transparent 50%),
+    var(--stage);
+}
+
+.page { max-width: 980px; margin: 0 auto; padding: 0 20px 60px; perspective: 1400px; }
+
+/* ---------- Three.js background ---------- */
+#bg3d {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* ---------- Nav: raised keys ---------- */
+.Nav-bar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  padding: 14px 16px;
+  background: var(--ink);
+  box-shadow: 0 6px 0 var(--ink-edge), 0 16px 24px rgba(23, 13, 34, 0.35);
+}
+
+.nav-link {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  padding: 8px 18px;
+  border-radius: 10px;
+  background: #4a3262;
+  box-shadow: 0 5px 0 #2d1d40, 0 8px 12px rgba(0, 0, 0, 0.3);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+}
+.nav-link:hover { background: #5b3d78; transform: translateY(-2px); }
+.nav-link:active {
+  transform: translateY(4px);
+  box-shadow: 0 1px 0 #2d1d40, 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+.nav-link:focus-visible,
+.demo-btn:focus-visible,
+.demo-close:focus-visible,
+footer a:focus-visible { outline: 3px solid var(--amber); outline-offset: 3px; }
+
+/* ---------- Hero ---------- */
+.hero {
+  display: grid;
+  grid-template-columns: minmax(180px, 260px) 1fr;
+  gap: 40px;
+  align-items: center;
+  padding: 60px 0 40px;
+}
+
+.profile-photo {
+  --rx: 0deg;
+  --ry: 0deg;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: var(--radius);
+  transform: perspective(900px) rotateX(var(--rx)) rotateY(var(--ry));
+  transition: transform 0.15s ease-out;
+  box-shadow:
+    1px 1px 0 var(--paper-edge), 2px 2px 0 var(--paper-edge),
+    3px 3px 0 var(--paper-edge), 4px 4px 0 var(--paper-edge),
+    5px 5px 0 var(--paper-edge), 6px 6px 0 var(--paper-edge),
+    18px 28px 40px rgba(42, 26, 58, 0.4);
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(2.2rem, 6vw, 3.8rem);
+  line-height: 1.1;
+  color: var(--paper);
+  /* extruded 3D lettering */
+  text-shadow:
+    1px 1px 0 var(--ink), 2px 2px 0 var(--ink), 3px 3px 0 var(--ink),
+    4px 4px 0 var(--ink), 5px 5px 0 var(--ink), 6px 6px 0 var(--ink),
+    10px 14px 18px rgba(23, 13, 34, 0.45);
+}
+
+/* ---------- Slabs (sections) ---------- */
+.Home-section,
+.about-me,
+.my-work {
+  background: var(--glass);
+  backdrop-filter: blur(6px);
+  border-radius: var(--radius);
+  padding: 28px 32px;
+  margin: 36px 0;
+  box-shadow:
+    0 8px 0 var(--paper-edge),
+    0 22px 34px rgba(42, 26, 58, 0.28);
+  transform: rotateX(2deg);
+  transform-origin: center bottom;
+}
+
+h2 {
+  margin: 0 0 12px;
+  font-size: 1.7rem;
+  text-shadow: 2px 2px 0 rgba(255, 179, 71, 0.8);
+}
+
+.about-me { display: grid; grid-template-columns: 200px 1fr; gap: 12px 28px; align-items: start; }
+.about-me h2 { grid-column: 1 / -1; }
+.about-photo {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 50%;
+  box-shadow:
+    0 6px 0 var(--paper-edge),
+    0 18px 24px rgba(42, 26, 58, 0.35),
+    inset 0 -6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* ---------- Project cards ---------- */
+.project-card {
+  --rx: 0deg;
+  --ry: 0deg;
+  background: #faf8fd;
+  border-radius: 14px;
+  padding: 22px;
+  margin: 22px 0;
+  transform-style: preserve-3d;
+  transform: perspective(900px) rotateX(var(--rx)) rotateY(var(--ry));
+  transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
+  box-shadow:
+    0 6px 0 var(--paper-edge),
+    0 16px 24px rgba(42, 26, 58, 0.22);
+}
+.project-card:hover {
+  box-shadow:
+    0 6px 0 var(--paper-edge),
+    0 28px 40px rgba(42, 26, 58, 0.32);
+}
+.project-card h3 { margin: 0 0 8px; transform: translateZ(28px); }
+.project-card p { margin: 0 0 10px; }
+.project-card .demo-btn { transform: translateZ(40px); }
+
+/* ---------- 3D buttons ---------- */
+.demo-btn {
+  font: inherit;
+  font-weight: 700;
+  color: #fff;
+  background: var(--blue);
+  border: none;
+  border-radius: 10px;
+  padding: 10px 18px;
+  margin-top: 8px;
+  cursor: pointer;
+  box-shadow: 0 6px 0 var(--blue-edge), 0 10px 16px rgba(35, 54, 184, 0.35);
+  transition: box-shadow 0.12s ease, translate 0.12s ease;
+}
+.demo-btn:hover { translate: 0 -2px; }
+.demo-btn:active {
+  translate: 0 5px;
+  box-shadow: 0 1px 0 var(--blue-edge), 0 2px 4px rgba(35, 54, 184, 0.35);
+}
+
+/* ---------- Footer ---------- */
+footer {
+  max-width: 980px;
+  margin: 40px auto 60px;
+  padding: 28px 32px;
+  color: #fff;
+  background: var(--ink);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 0 var(--ink-edge), 0 22px 34px rgba(23, 13, 34, 0.4);
+}
+footer h2 { color: #fff; text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5); }
+footer a { color: var(--amber); font-weight: 700; text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+
+/* ---------- Demo modal ---------- */
+.demo-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  background: rgba(23, 13, 34, 0.88);
+  perspective: 1200px;
+}
+.demo-frame {
+  width: 90%;
+  height: 80%;
+  border: none;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+  animation: frame-in 0.35s ease-out;
+}
+.demo-close {
+  font: inherit;
+  font-weight: 700;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  background: var(--amber);
+  color: var(--ink);
+  box-shadow: 0 5px 0 #c27d1c;
+}
+.demo-close:active { transform: translateY(4px); box-shadow: 0 1px 0 #c27d1c; }
+
+@keyframes frame-in {
+  from { opacity: 0; transform: rotateX(18deg) translateY(40px) scale(0.94); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 680px) {
+  .hero { grid-template-columns: 1fr; text-align: center; padding-top: 36px; }
+  .profile-photo { max-width: 220px; margin: 0 auto; }
+  .about-me { grid-template-columns: 1fr; }
+  .about-photo { max-width: 160px; }
+  .Home-section, .about-me, .my-work { padding: 22px 20px; }
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .Home-section, .about-me, .my-work { transform: none; }
+  .project-card, .profile-photo { transform: none !important; transition: none; }
+  .project-card h3, .project-card .demo-btn { transform: none; }
+  .demo-frame { animation: none; }
+}
